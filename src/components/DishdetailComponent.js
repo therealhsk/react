@@ -5,12 +5,14 @@ import {
 } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
-import {Loading} from './LoadingComponent'
+import { Loading } from './LoadingComponent'
+import { baseUrl } from '../shared/baseUrl';
+
 function RenderDish({ dish }) {
 
     return (
         <Card>
-            <CardImg top src={dish.image} alt={dish.name} />
+            <CardImg top src={baseUrl + dish.image} alt={dish.name} />
             <CardBody>
                 <CardTitle>{dish.name}</CardTitle>
                 <CardText>{dish.description}</CardText>
@@ -43,18 +45,18 @@ function RenderComments({ comments, addComment, dishId }) {
 
 const Dish = (props) => {
     if (props.isLoading) {
-        return(
+        return (
             <div className="container">
-                <div className="row">            
+                <div className="row">
                     <Loading />
                 </div>
             </div>
         );
     }
     else if (props.errMess) {
-        return(
+        return (
             <div className="container">
-                <div className="row">            
+                <div className="row">
                     <h4>{props.errMess}</h4>
                 </div>
             </div>
@@ -79,7 +81,7 @@ const Dish = (props) => {
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={props.comments} dishId={props.dish.id} addComment={props.addComment}/>
+                        <RenderComments comments={props.comments} dishId={props.dish.id} addComment={props.addComment} />
                     </div>
                 </div>
             </div>
@@ -113,7 +115,7 @@ export class CommentForm extends Component {
     handleSubmit(values) {
         this.toggleModal();
         this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
-        }
+    }
 
     render() {
         return (
@@ -125,30 +127,30 @@ export class CommentForm extends Component {
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}> Submit Comment</ModalHeader>
                     <ModalBody>
-                                <LocalForm onSubmit={(values) => this.handleSubmit(values)} >
-                                    <FormGroup>
-                                    <Label htmlFor="rating">Rating</Label>
-                                        <Control.select model=".rating" name="rating" className="form-control" >
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </Control.select>
-                                    </FormGroup>
-                                    <FormGroup>
-                                    <Label htmlFor="author" >Your Name</Label>
-                                        <Control.text model=".author" id="author" name="author" placeholder="Author" className="form-control" validators={{ required, minLength: minLength(3), maxLength: maxLength(15) }} />
-                                        <Errors className="text-danger" model=".author" show="touched" messages={{ required: 'Required', minLength: 'Must be greater than 3 characters', maxLength: 'Must be 15 charaters or less' }} />
-                                    </FormGroup>
-                                    <FormGroup>
-                                    <Label htmlFor="feedback" >Comment</Label>
-                                    
-                                        <Control.textarea model=".comment" id="comment" name="comment" rows="6" className="form-control" validators={{ required }} />
-                                        <Errors className="text-danger" model=".comment" show="touched" messages={{ required: 'Required' }} />
-                                    </FormGroup>
-                                    <Button type="submit" value="submit" color="primary">Submit</Button>
-                                </LocalForm>
+                        <LocalForm onSubmit={(values) => this.handleSubmit(values)} >
+                            <FormGroup>
+                                <Label htmlFor="rating">Rating</Label>
+                                <Control.select model=".rating" name="rating" className="form-control" >
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </Control.select>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="author" >Your Name</Label>
+                                <Control.text model=".author" id="author" name="author" placeholder="Author" className="form-control" validators={{ required, minLength: minLength(3), maxLength: maxLength(15) }} />
+                                <Errors className="text-danger" model=".author" show="touched" messages={{ required: 'Required', minLength: 'Must be greater than 3 characters', maxLength: 'Must be 15 charaters or less' }} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="feedback" >Comment</Label>
+
+                                <Control.textarea model=".comment" id="comment" name="comment" rows="6" className="form-control" validators={{ required }} />
+                                <Errors className="text-danger" model=".comment" show="touched" messages={{ required: 'Required' }} />
+                            </FormGroup>
+                            <Button type="submit" value="submit" color="primary">Submit</Button>
+                        </LocalForm>
                     </ModalBody>
                 </Modal>
             </div>
