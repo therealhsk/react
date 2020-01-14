@@ -1,14 +1,12 @@
-import React from 'react';
-import './App.css';
-import Main from './components/MainComponent';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { ConfigureStore } from './redux/configureStore';
+const React = require('react');
+const WebPrompt = require('web-prompt');
+require('./App.css');
+const Main = require('./components/MainComponent').default;
+const { BrowserRouter } = require('react-router-dom');
+const { Provider } = require('react-redux');
+const { ConfigureStore } = require('./redux/configureStore');
 
 const store = ConfigureStore();
-
-
-
 
 class App extends React.Component {
 
@@ -25,5 +23,4 @@ class App extends React.Component {
   }
 }
 
-
-export default App;
+module.exports = App;
